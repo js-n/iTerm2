@@ -357,7 +357,7 @@ static NSRect iTermRectCenteredVerticallyWithinRect(NSRect frameToCenter, NSRect
 
     // Number of tabs since last change.
     NSInteger _previousNumberOfTabs;
-    
+
     // The window restoration completion block was called but windowDidDecodeRestorableState:
     // has not yet been called.
     BOOL _expectingDecodeOfRestorableState;
@@ -403,7 +403,6 @@ static NSRect iTermRectCenteredVerticallyWithinRect(NSRect frameToCenter, NSRect
 
         default:
             return (mask |
-                    NSTitledWindowMask |
                     NSClosableWindowMask |
                     NSMiniaturizableWindowMask |
                     NSResizableWindowMask |
@@ -775,7 +774,7 @@ static NSRect iTermRectCenteredVerticallyWithinRect(NSRect frameToCenter, NSRect
             // This allows the window to enter Lion fullscreen.
             [[self window] setCollectionBehavior:[[self window] collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary];
             break;
-            
+
         case iTermHotkeyWindowTypeRegular:
         case iTermHotkeyWindowTypeFloatingPanel:
         case iTermHotkeyWindowTypeFloatingWindow:
@@ -854,7 +853,7 @@ ITERM_WEAKLY_REFERENCEABLE
     [_touchBarRateLimitedUpdate invalidate];
     [_touchBarRateLimitedUpdate release];
     [_previousTouchBarWord release];
-    
+
     [super dealloc];
 }
 
@@ -2027,7 +2026,7 @@ ITERM_WEAKLY_REFERENCEABLE
         // Do not have a hotkey defined for this profile
         return NO;
     }
-    
+
     return YES;
 }
 
@@ -2192,7 +2191,7 @@ ITERM_WEAKLY_REFERENCEABLE
         if ([aTab isTmuxTab]) {
             NSSize tabSize = [aTab tmuxSize];
             DLog(@"tab %@ size is %@", aTab, NSStringFromSize(tabSize));
-            
+
             tmuxSize.width = (int) MIN(tmuxSize.width, tabSize.width);
             tmuxSize.height = (int) MIN(tmuxSize.height, tabSize.height);
         }
@@ -2612,7 +2611,7 @@ ITERM_WEAKLY_REFERENCEABLE
     }
 
     [[self retain] autorelease];
-    
+
     // This releases the last reference to self except for autorelease pools.
     [[iTermController sharedInstance] terminalWillClose:self];
 
@@ -3038,7 +3037,7 @@ ITERM_WEAKLY_REFERENCEABLE
     if (![siblings containsObject:newMainWindowController]) {
         [[iTermHotKeyController sharedInstance] autoHideHotKeyWindows:siblings];
     }
-    
+
     // update the cursor
     [[[self currentSession] textview] refresh];
     [[[self currentSession] textview] setNeedsDisplay:YES];
@@ -4425,7 +4424,7 @@ ITERM_WEAKLY_REFERENCEABLE
         if (wasDraggedFromAnotherWindow_) {
             wasDraggedFromAnotherWindow_ = NO;
             [firstTab setReportIdealSizeAsCurrent:NO];
-            
+
             // fitWindowToTabs will detect the window changed sizes and do a bogus move of it in this case.
             if (windowType_ == WINDOW_TYPE_NORMAL ||
                 windowType_ == WINDOW_TYPE_NO_TITLE_BAR) {
@@ -4699,7 +4698,7 @@ ITERM_WEAKLY_REFERENCEABLE
 
     [theTab numberOfSessionsDidChange];
     [self saveTmuxWindowOrigins];
-    
+
     if (tabToRemove) {
         [self.tabView removeTabViewItem:tabToRemove.tabViewItem];
     }
@@ -6298,7 +6297,7 @@ ITERM_WEAKLY_REFERENCEABLE
 
     [self updateTabBarStyle];
     [self updateCurrentLocation];
-    
+
     // If hiding of menu bar changed.
     if ([self fullScreen] && ![self lionFullScreen]) {
         if ([[self window] isKeyWindow]) {
@@ -7816,7 +7815,7 @@ ITERM_WEAKLY_REFERENCEABLE
     if (_screenNumberFromFirstProfile == -2) {
         // Return screen with cursor
         NSPoint cursor = [NSEvent mouseLocation];
-        [[NSScreen screens] enumerateObjectsUsingBlock:^(NSScreen * _Nonnull screen, NSUInteger i, BOOL * _Nonnull stop) {            
+        [[NSScreen screens] enumerateObjectsUsingBlock:^(NSScreen * _Nonnull screen, NSUInteger i, BOOL * _Nonnull stop) {
             if (NSPointInRect(cursor, screen.frame)) {
                 _isAnchoredToScreen = YES;
                 _anchoredScreenNumber = i;

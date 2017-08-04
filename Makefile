@@ -3,7 +3,7 @@ PATH := /usr/bin:/bin:/usr/sbin:/sbin
 ORIG_PATH := $(PATH)
 PATH := /usr/bin:/bin:/usr/sbin:/sbin
 ITERM_PID=$(shell pgrep "iTerm2")
-APPS := /Applications
+APPS := $(HOME)/Applications
 ITERM_CONF_PLIST = $(HOME)/Library/Preferences/com.googlecode.iterm2.plist
 COMPACTDATE=$(shell date +"%Y%m%d")
 VERSION = $(shell cat version.txt | sed -e "s/%(extra)s/$(COMPACTDATE)/")
@@ -25,14 +25,14 @@ install: | Deployment backup-old-iterm
 
 Development:
 	echo "Using PATH for build: $(PATH)"
-	xcodebuild -parallelizeTargets -target iTerm2 -configuration Development && \
+	xcodebuild -parallelizeTargets -target iTerm2 -configuration Development CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO && \
 	chmod -R go+rX build/Development
 
 Dep:
-	xcodebuild -parallelizeTargets -target iTerm2 -configuration Deployment
+	xcodebuild -parallelizeTargets -target iTerm2 -configuration Deployment CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
 Deployment:
-	xcodebuild -parallelizeTargets -target iTerm2 -configuration Deployment && \
+	xcodebuild -parallelizeTargets -target iTerm2 -configuration Deployment CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO && \
 	chmod -R go+rX build/Deployment
 
 Nightly: force
@@ -56,6 +56,8 @@ clean:
 	xcodebuild -parallelizeTargets -alltargets clean
 	rm -rf build
 	rm -f *~
+
+do: install clean
 
 backup-old-iterm:
 	if [[ -d $(APPS)/iTerm2.app.bak ]] ; then rm -fr $(APPS)/iTerm2.app.bak ; fi
